@@ -1,0 +1,18 @@
+# Formatage du code
+echo "💅 Formatage du code..."
+npm run format || {
+  echo "❌ Le formatage a échoué."
+  exit 1
+}
+
+# Exécution du linting (backend et frontend)
+echo "🔍 Linting du code..."
+npm run lint || {
+  echo "❌ Le linting a échoué. Veuillez corriger les erreurs avant de commiter."
+  exit 1
+}
+
+# Ajout des fichiers formatés au commit
+git add .
+
+echo "✅ Vérifications de code réussies !"

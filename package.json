@@ -1,0 +1,27 @@
+{
+  "name": "devcanvas",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "husky",
+    "lint:backend": "cd server && npm run lint -- --max-warnings=0",
+    "lint:frontend": "cd client && npm run lint -- --max-warnings=0",
+    "format:backend": "prettier --write \"server/src/**/*.ts\"",
+    "format:frontend": "prettier --write \"client/src/**/*.{ts,vue}\"",
+    "format:check:backend": "prettier --check \"server/src/**/*.ts\"",
+    "format:check:frontend": "prettier --check \"client/src/**/*.{ts,vue}\"",
+    "lint": "npm run lint:backend && npm run lint:frontend",
+    "format": "npm run format:backend && npm run format:frontend",
+    "format:check": "npm run format:check:backend && npm run format:check:frontend"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@typescript-eslint/eslint-plugin": "^8.27.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "husky": "^9.0.11",
+    "prettier": "^3.5.3"
+  }
+}
