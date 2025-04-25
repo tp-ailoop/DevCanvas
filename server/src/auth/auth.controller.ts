@@ -6,6 +6,7 @@ import {
   Get,
   Body,
   Res,
+  Query,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
@@ -61,6 +62,50 @@ export class AuthController {
   login(@Request() req: RequestWithUser, @Body() loginDto: LoginDto) {
     console.log(`Tentative de connexion avec l'email: ${loginDto.email}`);
     return this.authService.login(req.user);
+  }
+
+  @Get('verify-roles')
+  @UseGuards(AuthenticatedGuard)
+  @ApiOperation({
+    summary:
+      "Vérifie si l'utilisateur possède un ou plusieurs rôles spécifiques",
+  })
+  @ApiCookieAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'Résultat de la vérification des rôles',
+    schema: {
+      properties: {
+        hasAccess: {
+          type: 'boolean',
+          description:
+            "Indique si l'utilisateur possède au moins un des rôles demandés",
+          example: true,
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Non authentifié' })
+  async verifyRoles(
+    @Request() req: RequestWithUser,
+    @Query('roles') roles: string | string[],
+  ) {
+    await Promise.resolve();
+
+    const rolesToCheck: string[] = Array.isArray(roles) ? roles : [roles];
+
+    // Récupère les rôles de l'utilisateur depuis la session
+    const userRoles: string[] =
+      req.user?.roles?.map((role: Role | string) =>
+        typeof role === 'string' ? role : role.name,
+      ) || [];
+
+    // Vérifie si l'utilisateur a au moins un des rôles demandés
+    const hasAccess: boolean = rolesToCheck.some((role: string) =>
+      userRoles.includes(role),
+    );
+
+    return { hasAccess };
   }
 
   @UseGuards(RateLimitGuard, AuthenticatedGuard)
