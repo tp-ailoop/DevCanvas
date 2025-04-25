@@ -37,7 +37,7 @@
 
             <!-- Authentication -->
             <div class="flex items-center space-x-2">
-                <template v-if="authStore.isAuthenticated()">
+                <template v-if="authStore.isAuthenticated">
                     <!-- Menu de profil avec ouverture au clic -->
                     <div
                         ref="profileMenuContainer"

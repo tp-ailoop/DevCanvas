@@ -20,12 +20,15 @@ import {
 import { LoginDto } from './dto/login.dto';
 import { Request as ExpressRequest, Response } from 'express';
 import { Session, SessionData } from 'express-session';
+import { Role } from '../users/entities/role.entity';
 import { RateLimitGuard, SetRateLimit } from '../utils/guards/rate-limit.guard';
 
 interface RequestWithUser extends ExpressRequest {
   user: {
     id: string;
-    roles: any[];
+    name: string;
+    firstname: string;
+    roles: Role[];
     estVerifie: boolean;
   };
   session: Session & Partial<SessionData>;
@@ -55,9 +58,9 @@ export class AuthController {
     },
   })
   @ApiResponse({ status: 401, description: 'Identifiants invalides' })
-  login(@Body() loginDto: LoginDto) {
+  login(@Request() req: RequestWithUser, @Body() loginDto: LoginDto) {
     console.log(`Tentative de connexion avec l'email: ${loginDto.email}`);
-    return this.authService.login();
+    return this.authService.login(req.user);
   }
 
   @UseGuards(RateLimitGuard, AuthenticatedGuard)

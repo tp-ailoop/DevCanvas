@@ -3,12 +3,16 @@ import { PassportSerializer } from '@nestjs/passport';
 
 interface UserEntity {
   id: string;
+  name: string;
+  firstname: string;
   roles: Array<{ name: string }>;
   isVerified: boolean;
 }
 
 interface SerializedUser {
   id: string;
+  name: string;
+  firstname: string;
   roles: string[];
   isVerified: boolean;
 }
@@ -30,6 +34,8 @@ export class SessionSerializer extends PassportSerializer {
 
       done(null, {
         id: user.id,
+        name: user.name,
+        firstname: user.firstname,
         roles: user.roles.map((role) =>
           typeof role === 'object' && role !== null ? role.name : String(role),
         ),

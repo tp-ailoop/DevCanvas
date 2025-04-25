@@ -31,6 +31,8 @@ export class AuthService {
 
       return {
         id: user.id,
+        name: user.name,
+        firstname: user.firstname,
         roles: user.roles,
         isVerified: user.isVerified,
       };
@@ -42,8 +44,17 @@ export class AuthService {
     }
   }
 
-  login(): { message: string } {
-    return { message: 'Connexion réussie' };
+  login(user: { name: string; firstname: string }): {
+    message: string;
+    user: { name: string; firstname: string };
+  } {
+    return {
+      message: 'Connexion réussie',
+      user: {
+        name: user.name,
+        firstname: user.firstname,
+      },
+    };
   }
 
   async getProfile(userId: string) {
