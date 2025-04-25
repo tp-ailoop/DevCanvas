@@ -80,7 +80,7 @@
                     <ul class="space-y-2">
                         <li>
                             <a
-                                href="#"
+                                href="/docs"
                                 class="text-gray-600 hover:text-green-600 text-sm"
                                 >Documentation</a
                             >
